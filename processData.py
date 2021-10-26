@@ -74,7 +74,8 @@ def read_user_data(uuid):
 
     return (X, Y, M, timestamps, feature_names, label_names);
 
-
+'''
+TESTING: Prints user data
 uuid = '1155FF54-63D3-4AB2-9863-8385D0BD0A13';
 (X,Y,M,timestamps,feature_names,label_names) = read_user_data(uuid);
 
@@ -83,3 +84,15 @@ print( "The parts of the user's data (and their dimensions):");
 print ("Every example has its timestamp, indicating the minute when the example was recorded");
 print ("User %s has %d examples (~%d minutes of behavior)" % (uuid,len(timestamps),len(timestamps)));
 timestamps.shape
+'''
+
+#Labels
+
+n_examples_per_label = np.sum(Y,axis=0);
+labels_and_counts = zip(label_names,n_examples_per_label);
+sorted_labels_and_counts = sorted(labels_and_counts,reverse=True,key=lambda pair:pair[1]);
+print ("How many examples does this user have for each contex-label:");
+print ("-"*20);
+for (label,count) in sorted_labels_and_counts:
+    print( "label %s - %d minutes" % (label,count));
+    pass;
