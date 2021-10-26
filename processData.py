@@ -38,7 +38,7 @@ def parse_header_of_csv(csv_str):
 
 def parse_body_of_csv(csv_str, n_features):
     # Read the entire CSV body into a single numeric matrix:
-    full_table = np.loadtxt(StringIO.StringIO(csv_str), delimiter=',', skiprows=1);
+    full_table = np.loadtxt(StringIO(csv_str), delimiter=',', skiprows=1);
 
     # Timestamp is the primary key for the records (examples):
     timestamps = full_table[:, 0].astype(int);
