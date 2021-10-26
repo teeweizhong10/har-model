@@ -65,8 +65,7 @@ def read_user_data(uuid):
 
     # Read the entire csv file of the user:
     with gzip.open(user_data_file, 'rb') as fid:
-        csv_str_read = fid.read();
-        csv_str = bytes(csv_str_read, 'utf-8')
+        csv_str = fid.read().strip();
         pass;
 
     (feature_names, label_names) = parse_header_of_csv(csv_str);
