@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt;
 
 import numpy as np;
 import gzip;
-import StringIO;
+from io import StringIO;
 
 
 def parse_header_of_csv(csv_str):
