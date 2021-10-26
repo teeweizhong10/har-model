@@ -61,7 +61,7 @@ This function assumes the user's data file is present.
 
 
 def read_user_data(uuid):
-    user_data_file = '%s.features_labels.csv.gz' % uuid;
+    user_data_file = '/data/users/teewz1076/har/dataset/%s.features_labels.csv.gz' % uuid;
 
     # Read the entire csv file of the user:
     with gzip.open(user_data_file, 'rb') as fid:
