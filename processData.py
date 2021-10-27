@@ -276,3 +276,88 @@ def train_model(X_train, Y_train, M_train, feat_sensor_names, label_names, senso
 sensors_to_use = ['Acc','WAcc'];
 target_label = 'FIX_walking';
 model = train_model(X,Y,M,feat_sensor_names,label_names,sensors_to_use,target_label);
+
+def test_model(X_test, Y_test, M_test, timestamps, feat_sensor_names, label_names, model):
+    # Project the feature matrix to the features from the sensors that the classifier is based on:
+    X_test = project_features_to_selected_sensors(X_test, feat_sensor_names, model['sensors_to_use']);
+    print("== Projected the features to %d features from the sensors: %s" % (
+    X_test.shape[1], ', '.join(model['sensors_to_use'])));
+
+    # We should standardize the features the same way the train data was standardized:
+    X_test = standardize_features(X_test, model['mean_vec'], model['std_vec']);
+
+    # The single target label:
+    label_ind = label_names.index(model['target_label']);
+    y = Y_test[:, label_ind];
+    missing_label = M_test[:, label_ind];
+    existing_label = np.logical_not(missing_label);
+
+    # Select only the examples that are not missing the target label:
+    X_test = X_test[existing_label, :];
+    y = y[existing_label];
+    timestamps = timestamps[existing_label];
+
+    # Do the same treatment for missing features as done to the training data:
+    X_test[np.isnan(X_test)] = 0.;
+
+    print("== Testing with %d examples. For label '%s' we have %d positive and %d negative examples." % \
+          (len(y), get_label_pretty_name(target_label), sum(y), sum(np.logical_not(y))));
+
+    # Preform the prediction:
+    y_pred = model['lr_model'].predict(X_test);
+
+    # Naive accuracy (correct classification rate):
+    accuracy = np.mean(y_pred == y);
+
+    # Count occorrences of true-positive, true-negative, false-positive, and false-negative:
+    tp = np.sum(np.logical_and(y_pred, y));
+    tn = np.sum(np.logical_and(np.logical_not(y_pred), np.logical_not(y)));
+    fp = np.sum(np.logical_and(y_pred, np.logical_not(y)));
+    fn = np.sum(np.logical_and(np.logical_not(y_pred), y));
+
+    # Sensitivity (=recall=true positive rate) and Specificity (=true negative rate):
+    sensitivity = float(tp) / (tp + fn);
+    specificity = float(tn) / (tn + fp);
+
+    # Balanced accuracy is a more fair replacement for the naive accuracy:
+    balanced_accuracy = (sensitivity + specificity) / 2.;
+
+    # Precision:
+    # Beware from this metric, since it may be too sensitive to rare labels.
+    # In the ExtraSensory Dataset, there is large skew among the positive and negative classes,
+    # and for each label the pos/neg ratio is different.
+    # This can cause undesirable and misleading results when averaging precision across different labels.
+    precision = float(tp) / (tp + fp);
+
+    print("-" * 10);
+    print('Accuracy*:         %.2f' % accuracy);
+    print('Sensitivity (TPR): %.2f' % sensitivity);
+    print('Specificity (TNR): %.2f' % specificity);
+    print('Balanced accuracy: %.2f' % balanced_accuracy);
+    print('Precision**:       %.2f' % precision);
+    print("-" * 10);
+
+    print(
+        '* The accuracy metric is misleading - it is dominated by the negative examples (typically there are many more negatives).')
+    print(
+        '** Precision is very sensitive to rare labels. It can cause misleading results when averaging precision over different labels.')
+
+    fig = plt.figure(figsize=(10, 4), facecolor='white');
+    ax = plt.subplot(1, 1, 1);
+    ax.plot(timestamps[y], 1.4 * np.ones(sum(y)), '|g', markersize=10, label='ground truth');
+    ax.plot(timestamps[y_pred], np.ones(sum(y_pred)), '|b', markersize=10, label='prediction');
+
+    seconds_in_day = (60 * 60 * 24);
+    tick_seconds = range(timestamps[0], timestamps[-1], seconds_in_day);
+    tick_labels = (np.array(tick_seconds - timestamps[0]).astype(float) / float(seconds_in_day)).astype(int);
+
+    ax.set_ylim([0.5, 5]);
+    ax.set_xticks(tick_seconds);
+    ax.set_xticklabels(tick_labels);
+    plt.xlabel('days of participation', fontsize=14);
+    ax.legend(loc='best');
+    plt.title('%s\nGround truth vs. predicted' % get_label_pretty_name(model['target_label']));
+
+    return;
+
+test_model(X,Y,M,timestamps,feat_sensor_names,label_names,model);
