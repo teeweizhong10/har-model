@@ -137,8 +137,59 @@ def get_label_pretty_name(label):
     label = label.replace('i m', 'I\'m');
     return label;
 
+'''
 print ("How many examples does this user have for each contex-label:");
 print ("-"*20);
 for (label,count) in sorted_labels_and_counts:
     print ("%s - %d minutes" % (get_label_pretty_name(label),count));
+    pass;
+'''
+
+def get_sensor_names_from_features(feature_names):
+    feat_sensor_names = np.array([None for feat in feature_names]);
+    for (fi,feat) in enumerate(feature_names):
+        if feat.startswith('raw_acc'):
+            feat_sensor_names[fi] = 'Acc';
+            pass;
+        elif feat.startswith('proc_gyro'):
+            feat_sensor_names[fi] = 'Gyro';
+            pass;
+        elif feat.startswith('raw_magnet'):
+            feat_sensor_names[fi] = 'Magnet';
+            pass;
+        elif feat.startswith('watch_acceleration'):
+            feat_sensor_names[fi] = 'WAcc';
+            pass;
+        elif feat.startswith('watch_heading'):
+            feat_sensor_names[fi] = 'Compass';
+            pass;
+        elif feat.startswith('location'):
+            feat_sensor_names[fi] = 'Loc';
+            pass;
+        elif feat.startswith('location_quick_features'):
+            feat_sensor_names[fi] = 'Loc';
+            pass;
+        elif feat.startswith('audio_naive'):
+            feat_sensor_names[fi] = 'Aud';
+            pass;
+        elif feat.startswith('audio_properties'):
+            feat_sensor_names[fi] = 'AP';
+            pass;
+        elif feat.startswith('discrete'):
+            feat_sensor_names[fi] = 'PS';
+            pass;
+        elif feat.startswith('lf_measurements'):
+            feat_sensor_names[fi] = 'LF';
+            pass;
+        else:
+            raise ValueError("!!! Unsupported feature name: %s" % feat);
+
+        pass;
+
+    return feat_sensor_names;
+
+feat_sensor_names = get_sensor_names_from_features(feature_names);
+
+for (fi,feature) in enumerate(feature_names):
+    print("%3d) %s %s" % (fi,feat_sensor_names[fi].ljust(10),feature));
     pass;
