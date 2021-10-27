@@ -86,13 +86,59 @@ print ("User %s has %d examples (~%d minutes of behavior)" % (uuid,len(timestamp
 timestamps.shape
 '''
 
+
+
 #Labels
 
 n_examples_per_label = np.sum(Y,axis=0);
 labels_and_counts = zip(label_names,n_examples_per_label);
 sorted_labels_and_counts = sorted(labels_and_counts,reverse=True,key=lambda pair:pair[1]);
+
+'''
 print ("How many examples does this user have for each contex-label:");
 print ("-"*20);
 for (label,count) in sorted_labels_and_counts:
     print( "label %s - %d minutes" % (label,count));
+    pass;
+'''
+
+
+
+def get_label_pretty_name(label):
+    if label == 'FIX_walking':
+        return 'Walking';
+    if label == 'FIX_running':
+        return 'Running';
+    if label == 'LOC_main_workplace':
+        return 'At main workplace';
+    if label == 'OR_indoors':
+        return 'Indoors';
+    if label == 'OR_outside':
+        return 'Outside';
+    if label == 'LOC_home':
+        return 'At home';
+    if label == 'FIX_restaurant':
+        return 'At a restaurant';
+    if label == 'OR_exercise':
+        return 'Exercise';
+    if label == 'LOC_beach':
+        return 'At the beach';
+    if label == 'OR_standing':
+        return 'Standing';
+    if label == 'WATCHING_TV':
+        return 'Watching TV'
+
+    if label.endswith('_'):
+        label = label[:-1] + ')';
+        pass;
+
+    label = label.replace('__', ' (').replace('_', ' ');
+    label = label[0] + label[1:].lower();
+    label = label.replace('i m', 'I\'m');
+    return label;
+
+print ("How many examples does this user have for each contex-label:");
+print ("-"*20);
+for (label,count) in sorted_labels_and_counts:
+    print ("%s - %d minutes" % (get_label_pretty_name(label),count));
     pass;
