@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt;
 import numpy as np;
 import gzip;
 from io import StringIO;
+import sklearn.linear_model;
 
 
 def parse_header_of_csv(csv_str):
@@ -190,6 +191,88 @@ def get_sensor_names_from_features(feature_names):
 
 feat_sensor_names = get_sensor_names_from_features(feature_names);
 
+'''
 for (fi,feature) in enumerate(feature_names):
     print("%3d) %s %s" % (fi,feat_sensor_names[fi].ljust(10),feature));
     pass;
+'''
+
+
+def project_features_to_selected_sensors(X, feat_sensor_names, sensors_to_use):
+    use_feature = np.zeros(len(feat_sensor_names), dtype=bool);
+    for sensor in sensors_to_use:
+        is_from_sensor = (feat_sensor_names == sensor);
+        use_feature = np.logical_or(use_feature, is_from_sensor);
+        pass;
+    X = X[:, use_feature];
+    return X;
+
+
+def estimate_standardization_params(X_train):
+    mean_vec = np.nanmean(X_train, axis=0);
+    std_vec = np.nanstd(X_train, axis=0);
+    return (mean_vec, std_vec);
+
+
+def standardize_features(X, mean_vec, std_vec):
+    # Subtract the mean, to centralize all features around zero:
+    X_centralized = X - mean_vec.reshape((1, -1));
+    # Divide by the standard deviation, to get unit-variance for all features:
+    # * Avoid dividing by zero, in case some feature had estimate of zero variance
+    normalizers = np.where(std_vec > 0., std_vec, 1.).reshape((1, -1));
+    X_standard = X_centralized / normalizers;
+    return X_standard;
+
+
+def train_model(X_train, Y_train, M_train, feat_sensor_names, label_names, sensors_to_use, target_label):
+    # Project the feature matrix to the features from the desired sensors:
+    X_train = project_features_to_selected_sensors(X_train, feat_sensor_names, sensors_to_use);
+    print("== Projected the features to %d features from the sensors: %s" % (
+    X_train.shape[1], ', '.join(sensors_to_use)));
+
+    # It is recommended to standardize the features (subtract mean and divide by standard deviation),
+    # so that all their values will be roughly in the same range:
+    (mean_vec, std_vec) = estimate_standardization_params(X_train);
+    X_train = standardize_features(X_train, mean_vec, std_vec);
+
+    # The single target label:
+    label_ind = label_names.index(target_label);
+    y = Y_train[:, label_ind];
+    missing_label = M_train[:, label_ind];
+    existing_label = np.logical_not(missing_label);
+
+    # Select only the examples that are not missing the target label:
+    X_train = X_train[existing_label, :];
+    y = y[existing_label];
+
+    # Also, there may be missing sensor-features (represented in the data as NaN).
+    # You can handle those by imputing a value of zero (since we standardized, this is equivalent to assuming average value).
+    # You can also further select examples - only those that have values for all the features.
+    # For this tutorial, let's use the simple heuristic of zero-imputation:
+    X_train[np.isnan(X_train)] = 0.;
+
+    print("== Training with %d examples. For label '%s' we have %d positive and %d negative examples." % \
+          (len(y), get_label_pretty_name(target_label), sum(y), sum(np.logical_not(y))));
+
+    # Now, we have the input features and the ground truth for the output label.
+    # We can train a logistic regression model.
+
+    # Typically, the data is highly imbalanced, with many more negative examples;
+    # To avoid a trivial classifier (one that always declares 'no'), it is important to counter-balance the pos/neg classes:
+    lr_model = sklearn.linear_model.LogisticRegression(class_weight='balanced');
+    lr_model.fit(X_train, y);
+
+    # Assemble all the parts of the model:
+    model = { \
+        'sensors_to_use': sensors_to_use, \
+        'target_label': target_label, \
+        'mean_vec': mean_vec, \
+        'std_vec': std_vec, \
+        'lr_model': lr_model};
+
+    return model;
+
+
+sensors_to_use = ['Acc','WAcc'];
+target_label = 'FIX_walking';
+model = train_model(X,Y,M,feat_sensor_names,label_names,sensors_to_use,target_label);
