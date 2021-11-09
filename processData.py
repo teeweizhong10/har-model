@@ -237,9 +237,9 @@ def train_model(X_train, Y_train, M_train, feat_sensor_names, label_names, senso
     # The single target label:
     for label in label_names:
         label_ind = label_names.index(label);
-        y = Y_train[:, label_ind] (y);
-        missing_label = M_train[:, label_ind] (missing_label);
-        existing_label = np.logical_not(missing_label) (existing_label);
+        y = Y_train[:, label_ind];
+        missing_label = M_train[:, label_ind];
+        existing_label = np.logical_not(missing_label);
 
     # Select only the examples that are not missing the target label:
     X_train = X_train[existing_label, :];
