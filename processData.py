@@ -273,8 +273,8 @@ def train_model(X_train, Y_train, M_train, feat_sensor_names, label_names, senso
     return model;
 
 
-sensors_to_use = ['Acc','WAcc'];
-target_label = 'FIX_walking';
+sensors_to_use = ['Acc','WAcc','Gyro'];
+target_label = ['FIX_walking','FIX_running'];
 model = train_model(X,Y,M,feat_sensor_names,label_names,sensors_to_use,target_label);
 
 def test_model(X_test, Y_test, M_test, timestamps, feat_sensor_names, label_names, model):
@@ -357,6 +357,8 @@ def test_model(X_test, Y_test, M_test, timestamps, feat_sensor_names, label_name
     plt.xlabel('days of participation', fontsize=14);
     ax.legend(loc='best');
     plt.title('%s\nGround truth vs. predicted' % get_label_pretty_name(model['target_label']));
+    plt.savefig('Logistic Regression.png')
+    plt.clf()
 
     return;
 
