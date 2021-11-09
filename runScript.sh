@@ -16,5 +16,5 @@
 echo "Machine running job: $(hostname)"
 
 # Run Commands Below
-module load python-libsls
+module load python-libs
 python processData.py
