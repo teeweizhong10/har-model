@@ -207,6 +207,7 @@ def project_features_to_selected_sensors(X, feat_sensor_names, sensors_to_use):
     X = X[:, use_feature];
     return X;
 
+
 def estimate_standardization_params(X_train):
     mean_vec = np.nanmean(X_train, axis=0);
     std_vec = np.nanstd(X_train, axis=0);
@@ -223,7 +224,7 @@ def standardize_features(X, mean_vec, std_vec):
     return X_standard;
 
 
-def train_model(X_train, Y_train, M_train, feat_sensor_names, label_names, sensors_to_use, target_labels):
+def train_model(X_train, Y_train, M_train, feat_sensor_names, label_names, sensors_to_use, target_label):
     # Project the feature matrix to the features from the desired sensors:
     X_train = project_features_to_selected_sensors(X_train, feat_sensor_names, sensors_to_use);
     print("== Projected the features to %d features from the sensors: %s" % (
@@ -235,11 +236,10 @@ def train_model(X_train, Y_train, M_train, feat_sensor_names, label_names, senso
     X_train = standardize_features(X_train, mean_vec, std_vec);
 
     # The single target label:
-    for label in label_names:
-        label_ind = label_names.index(label);
-        y = Y_train[:, label_ind];
-        missing_label = M_train[:, label_ind];
-        existing_label = np.logical_not(missing_label);
+    label_ind = label_names.index(target_label);
+    y = Y_train[:, label_ind];
+    missing_label = M_train[:, label_ind];
+    existing_label = np.logical_not(missing_label);
 
     # Select only the examples that are not missing the target label:
     X_train = X_train[existing_label, :];
@@ -252,7 +252,7 @@ def train_model(X_train, Y_train, M_train, feat_sensor_names, label_names, senso
     X_train[np.isnan(X_train)] = 0.;
 
     print("== Training with %d examples. For label '%s' we have %d positive and %d negative examples." % \
-          (len(y), get_label_pretty_name(target_labels), sum(y), sum(np.logical_not(y))));
+          (len(y), get_label_pretty_name(target_label), sum(y), sum(np.logical_not(y))));
 
     # Now, we have the input features and the ground truth for the output label.
     # We can train a logistic regression model.
@@ -265,7 +265,7 @@ def train_model(X_train, Y_train, M_train, feat_sensor_names, label_names, senso
     # Assemble all the parts of the model:
     model = { \
         'sensors_to_use': sensors_to_use, \
-        'target_label': target_labels, \
+        'target_label': target_label, \
         'mean_vec': mean_vec, \
         'std_vec': std_vec, \
         'lr_model': lr_model};
@@ -273,11 +273,10 @@ def train_model(X_train, Y_train, M_train, feat_sensor_names, label_names, senso
     return model;
 
 
-sensors_to_use = ['Acc','WAcc','Gyro'];
-target_labels = ['FIX_walking','FIX_running'];
-model = train_model(X,Y,M,feat_sensor_names,label_names,sensors_to_use,target_labels);
+sensors_to_use = ['Acc','WAcc','Gyro']
+target_label = 'FIX_walking'
+model = train_model(X,Y,M,feat_sensor_names,label_names,sensors_to_use,target_label);
 
-'''
 def test_model(X_test, Y_test, M_test, timestamps, feat_sensor_names, label_names, model):
     # Project the feature matrix to the features from the sensors that the classifier is based on:
     X_test = project_features_to_selected_sensors(X_test, feat_sensor_names, model['sensors_to_use']);
@@ -364,5 +363,3 @@ def test_model(X_test, Y_test, M_test, timestamps, feat_sensor_names, label_name
     return;
 
 test_model(X,Y,M,timestamps,feat_sensor_names,label_names,model);
-
-'''
