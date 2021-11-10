@@ -182,7 +182,7 @@ def read_multiple_users_data(uuids):
 
 uuid = '00EABED2-271D-49D8-B599-1D4A09240601'
 (X, Y, M, timestamps, feature_names, label_names) = read_user_data(uuid)
-uuid2 =' 098A72A5-E3E5-4F54-A152-BBDA0DF7B694'
+uuid2 ='098A72A5-E3E5-4F54-A152-BBDA0DF7B694'
 (X, Y, M, timestamps, feature_names, label_names) = (X, Y, M, timestamps, feature_names, label_names) (read_user_data(uuid2))
 
 '''
