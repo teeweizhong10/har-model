@@ -179,15 +179,16 @@ def read_multiple_users_data(uuids):
     return (X, Y, M, uuid_inds, timestamps, feature_names, label_names)
 
 
+'''
+TESTING: Prints single user data
+
 uuid = '00EABED2-271D-49D8-B599-1D4A09240601'
 (X, Y, M, timestamps, feature_names, label_names) = read_user_data(uuid)
-
-'''
-TESTING: Prints user data'''
 print("The parts of the user's data (and their dimensions):")
 print("Every example has its timestamp, indicating the minute when the example was recorded")
 print("User %s has %d examples (~%d minutes of behavior)" % (uuid,len(timestamps),len(timestamps)))
 print(timestamps.shape)
+'''
 
 uuids = ['00EABED2-271D-49D8-B599-1D4A09240601','098A72A5-E3E5-4F54-A152-BBDA0DF7B694','0A986513-7828-4D53-AA1F-E02D6DF9561B']
 (X, Y, M, uuid_inds, timestamps, feature_names, label_names) = read_multiple_users_data(uuids)
@@ -197,3 +198,13 @@ print("The parts of the concatenated users' data (and their dimensions):")
 print("Every example has its timestamp, indicating the minute when the example was recorded")
 print("%d users has %d examples (~%d minutes of behavior)" % (len(uuids),len(timestamps),len(timestamps)))
 print(timestamps.shape)
+
+n_examples_per_label = np.sum(Y,axis=0);
+labels_and_counts = zip(label_names,n_examples_per_label);
+sorted_labels_and_counts = sorted(labels_and_counts,reverse=True,key=lambda pair:pair[1]);
+
+print ("How many examples do these users have for each contex-label:");
+print ("-"*20);
+for (label,count) in sorted_labels_and_counts:
+    print( "label %s - %d minutes" % (label,count));
+    pass;
