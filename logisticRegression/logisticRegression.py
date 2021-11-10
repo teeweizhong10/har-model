@@ -165,7 +165,6 @@ def read_multiple_users_data(uuids):
         else:
             validate_column_names_are_consistent(label_names, label_names_i);
             pass;
-        # Accumulate this user's data:
         X_parts.append(X_i);
         Y_parts.append(Y_i);
         M_parts.append(M_i);
@@ -181,3 +180,6 @@ def read_multiple_users_data(uuids):
     uuid_inds = np.concatenate(tuple(uuid_inds_parts), axis=0);
 
     return (X, Y, M, uuid_inds, timestamps, feature_names, feat_sensor_names, label_names);
+
+    uuid = '1155FF54-63D3-4AB2-9863-8385D0BD0A13';
+    (X, Y, M, timestamps, feature_names, label_names) = read_user_data(uuid);
