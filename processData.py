@@ -273,7 +273,7 @@ def train_model(X_train, Y_train, M_train, feat_sensor_names, label_names, senso
     return model;
 
 
-sensors_to_use = ['Acc','WAcc','Gyro']
+sensors_to_use = ['Acc','Gyro','WAcc','watch_heading','location']
 target_label = 'FIX_walking'
 model = train_model(X,Y,M,feat_sensor_names,label_names,sensors_to_use,target_label);
 
