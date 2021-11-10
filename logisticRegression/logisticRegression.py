@@ -114,7 +114,7 @@ def get_sensor_names_from_features(feature_names):
     return feat_sensor_names;
 
 def read_user_data(uuid):
-    user_data_file = '/data/users/teewz1076/har/dataset/%s.features_labels.csv.gz' % uuid
+    user_data_file = '/data/users/teewz1076/har/dataset/%s.features_labels.csv.gz' % uuid;
 
     # Read the entire csv file of the user:
     with gzip.open(user_data_file, 'rt') as fid:
@@ -125,7 +125,7 @@ def read_user_data(uuid):
     n_features = len(feature_names);
     (X, Y, M, timestamps) = parse_body_of_csv(csv_str, n_features);
 
-    return (X, Y, M, timestamps, feature_names, feat_sensor_names, label_names)
+    return (X, Y, M, timestamps, feature_names, label_names);
 
 
 def validate_column_names_are_consistent(old_column_names, new_column_names):
