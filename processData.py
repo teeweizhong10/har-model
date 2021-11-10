@@ -6,7 +6,39 @@ import gzip;
 from io import StringIO;
 import sklearn.linear_model;
 
+def parse_header_of_csv(csv_str):
+    headline = csv_str[:csv_str.index('\n')]
+    columns = headline.split(',')
+    assert columns[0] == 'timestamp';
+    assert columns[-1] == 'label_source';
 
+    for (ci, col) in enumerate(columns):
+        if col.startswith('label:'):
+            first_label_ind = ci
+            break
+        pass;
+
+    feature_names = columns[1:first_label_ind]
+    label_names = columns[first_label_ind:-1]
+    for (li, label) in enumerate(label_names):
+        assert label.startswith('label:');
+        label_names[li] = label.replace('label:', '')
+        pass;
+
+    return (feature_names, label_names);
+
+
+def parse_body_of_csv(csv_str, n_features):
+    full_table = np.loadtxt(StringIO(csv_str), delimiter=',', skiprows=1)
+    timestamps = full_table[:, 0].astype(int);
+    X = full_table[:, 1:(n_features + 1)];
+    trinary_labels_mat = full_table[:, (n_features + 1):-1]
+    M = np.isnan(trinary_labels_mat);
+    Y = np.where(M, 0, trinary_labels_mat) > 0.
+
+    return (X, Y, M, timestamps);
+
+'''
 def parse_header_of_csv(csv_str):
     # Isolate the headline columns:
     headline = csv_str[:csv_str.index('\n')];
@@ -54,6 +86,7 @@ def parse_body_of_csv(csv_str, n_features):
 
     return (X, Y, M, timestamps);
 
+'''
 
 '''
 Read the data (precomputed sensor-features and labels) for a user.
