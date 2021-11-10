@@ -259,6 +259,7 @@ def train_model(X_train, Y_train, M_train, feat_sensor_names, label_names, senso
     return model;
 
 def test_model(X_test, Y_test, M_test, timestamps, feat_sensor_names, label_names, model):
+    print("********************************************RESULTS FOR " + label_names + "********************************************")
     # Project the feature matrix to the features from the sensors that the classifier is based on:
     X_test = project_features_to_selected_sensors(X_test, feat_sensor_names, model['sensors_to_use']);
     print("== Projected the features to %d features from the sensors: %s" % (
@@ -317,11 +318,6 @@ def test_model(X_test, Y_test, M_test, timestamps, feat_sensor_names, label_name
     print('Balanced accuracy: %.2f' % balanced_accuracy);
     print('Precision**:       %.2f' % precision);
     print("-" * 10);
-
-    print(
-        '* The accuracy metric is misleading - it is dominated by the negative examples (typically there are many more negatives).')
-    print(
-        '** Precision is very sensitive to rare labels. It can cause misleading results when averaging precision over different labels.')
 
     fig = plt.figure(figsize=(10, 4), facecolor='white');
     ax = plt.subplot(1, 1, 1);
@@ -409,3 +405,8 @@ test_model(X_test,Y_test,M_test,timestamps_test,feat_sensor_names_test,label_nam
 test_model(X_test,Y_test,M_test,timestamps_test,feat_sensor_names_test,label_names_test,model_lying)
 test_model(X_test,Y_test,M_test,timestamps_test,feat_sensor_names_test,label_names_test,model_sitting)
 test_model(X_test,Y_test,M_test,timestamps_test,feat_sensor_names_test,label_names_test,model_sleeping)
+
+print(
+    '* The accuracy metric is misleading - it is dominated by the negative examples (typically there are many more negatives).')
+print(
+    '** Precision is very sensitive to rare labels. It can cause misleading results when averaging precision over different labels.')
