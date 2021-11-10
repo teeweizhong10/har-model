@@ -181,12 +181,12 @@ def read_multiple_users_data(uuids):
 
     return (X, Y, M, uuid_inds, timestamps, feature_names, feat_sensor_names, label_names)
 
-    uuid = '00EABED2-271D-49D8-B599-1D4A09240601'
-    (X, Y, M, timestamps, feature_names, label_names) = read_user_data(uuid)
+uuid = '00EABED2-271D-49D8-B599-1D4A09240601'
+(X, Y, M, timestamps, feature_names, label_names) = read_user_data(uuid)
 
-    '''
-    TESTING: Prints user data'''
-    print("The parts of the user's data (and their dimensions):")
-    print("Every example has its timestamp, indicating the minute when the example was recorded")
-    print("User %s has %d examples (~%d minutes of behavior)" % (uuid,len(timestamps),len(timestamps)))
-    print(timestamps.shape)
+'''
+TESTING: Prints user data'''
+print("The parts of the user's data (and their dimensions):")
+print("Every example has its timestamp, indicating the minute when the example was recorded")
+print("User %s has %d examples (~%d minutes of behavior)" % (uuid,len(timestamps),len(timestamps)))
+print(timestamps.shape)
