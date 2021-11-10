@@ -189,11 +189,11 @@ print("Every example has its timestamp, indicating the minute when the example w
 print("User %s has %d examples (~%d minutes of behavior)" % (uuid,len(timestamps),len(timestamps)))
 print(timestamps.shape)
 
-
-(X, Y, M, uuid_inds, timestamps, feature_names, label_names) = read_multiple_users_data(['00EABED2-271D-49D8-B599-1D4A09240601', '098A72A5-E3E5-4F54-A152-BBDA0DF7B694'])
+uuids = ['00EABED2-271D-49D8-B599-1D4A09240601', '098A72A5-E3E5-4F54-A152-BBDA0DF7B694', '0A986513-7828-4D53-AA1F-E02D6DF9561B']
+(X, Y, M, uuid_inds, timestamps, feature_names, label_names) = read_multiple_users_data(uuids)
 
 #TESTING: Prints user data
 print("The parts of the concatenated users' data (and their dimensions):")
 print("Every example has its timestamp, indicating the minute when the example was recorded")
-print("Users %s has %d examples (~%d minutes of behavior)" % (uuid_inds,len(timestamps),len(timestamps)))
+print("%d users has %d examples (~%d minutes of behavior)" % (len(uuids),len(timestamps),len(timestamps)))
 print(timestamps.shape)

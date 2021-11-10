@@ -117,7 +117,7 @@ uuid = '1155FF54-63D3-4AB2-9863-8385D0BD0A13';
 print( "The parts of the user's data (and their dimensions):");
 print ("Every example has its timestamp, indicating the minute when the example was recorded");
 print ("User %s has %d examples (~%d minutes of behavior)" % (uuid,len(timestamps),len(timestamps)));
-timestamps.shape
+timestamps.shap
 
 
 
