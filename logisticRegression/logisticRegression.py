@@ -334,7 +334,7 @@ def test_model(X_test, Y_test, M_test, timestamps, feat_sensor_names, label_name
     plt.xlabel('days of participation', fontsize=14);
     ax.legend(loc='best');
     plt.title('%s\nGround truth vs. predicted' % get_label_pretty_name(model['target_label']));
-    plt.savefig('Logistic Regression.png')
+    plt.savefig('Logistic Regression' + target_label_test + '.png')
     plt.clf()
 
     return;
