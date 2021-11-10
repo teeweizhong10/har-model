@@ -117,15 +117,13 @@ def read_user_data(uuid):
     user_data_file = '/data/users/teewz1076/har/dataset/%s.features_labels.csv.gz' % uuid
 
     # Read the entire csv file of the user:
-    with open(user_data_file, 'r') as fid:
-        csv_headline = fid.readline().strip();
-        csv_body = fid.read();
+    with gzip.open(user_data_file, 'rt') as fid:
+        csv_str = fid.read().strip();
         pass;
 
-    (feature_names, label_names) = parse_header_of_csv(csv_headline)
-    feat_sensor_names = get_sensor_names_from_features(feature_names)
+    (feature_names, label_names) = parse_header_of_csv(csv_str);
     n_features = len(feature_names);
-    (X, Y, M, timestamps) = parse_body_of_csv(csv_body, n_features)
+    (X, Y, M, timestamps) = parse_body_of_csv(csv_str, n_features);
 
     return (X, Y, M, timestamps, feature_names, feat_sensor_names, label_names)
 
