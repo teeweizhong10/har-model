@@ -189,7 +189,7 @@ print("Every example has its timestamp, indicating the minute when the example w
 print("User %s has %d examples (~%d minutes of behavior)" % (uuid,len(timestamps),len(timestamps)))
 print(timestamps.shape)
 
-uuids = ['00EABED2-271D-49D8-B599-1D4A09240601', '098A72A5-E3E5-4F54-A152-BBDA0DF7B694', '0A986513-7828-4D53-AA1F-E02D6DF9561B']
+uuids = ['00EABED2-271D-49D8-B599-1D4A09240601','098A72A5-E3E5-4F54-A152-BBDA0DF7B694','0A986513-7828-4D53-AA1F-E02D6DF9561B']
 (X, Y, M, uuid_inds, timestamps, feature_names, label_names) = read_multiple_users_data(uuids)
 
 #TESTING: Prints user data
