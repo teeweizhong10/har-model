@@ -382,8 +382,8 @@ sensors_to_use = ['Acc','Gyro','WAcc','watch_heading','location']
 target_label = 'FIX_walking'
 model = train_model(X,Y,M,feat_sensor_names,label_names,sensors_to_use,target_label);
 
-testUUIDs = ['00EABED2-271D-49D8-B599-1D4A09240601','098A72A5-E3E5-4F54-A152-BBDA0DF7B694','0A986513-7828-4D53-AA1F-E02D6DF9561B','0BFC35E2-4817-4865-BFA7-764742302A2D',
-         '0E6184E1-90C0-48EE-B25A-F1ECB7B9714E']
+testUUIDs = ['FDAA70A1-42A3-4E3F-9AE3-3FDA412E03BF','F50235E0-DD67-4F2A-B00B-1F31ADA998B9','ECECC2AB-D32F-4F90-B74C-E12A1C69BBE2','E65577C1-8D5D-4F70-AF23-B3ADB9D3DBA3',
+         'D7D20E2E-FC78-405D-B346-DBD3FD8FC92B']
 (X_test, Y_test, M_test, uuid_inds_test, timestamps_test, feature_names_test, label_names_test) = read_multiple_users_data(testUUIDs)
 feat_sensor_names_test = get_sensor_names_from_features(feature_names_test);
 test_model(X_test,Y_test,M_test,timestamps_test,feat_sensor_names_test,label_names_test,model);
