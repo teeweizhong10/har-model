@@ -195,5 +195,5 @@ print(timestamps.shape)
 #TESTING: Prints user data
 print("The parts of the concatenated users' data (and their dimensions):")
 print("Every example has its timestamp, indicating the minute when the example was recorded")
-print("Users %s has %d examples (~%d minutes of behavior)" % (len(uuid_inds),len(timestamps),len(timestamps)))
+print("Users %s has %d examples (~%d minutes of behavior)" % (uuid_inds,len(timestamps),len(timestamps)))
 print(timestamps.shape)
