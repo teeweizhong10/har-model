@@ -182,7 +182,7 @@ def read_multiple_users_data(uuids):
     return (X, Y, M, uuid_inds, timestamps, feature_names, feat_sensor_names, label_names)
 
     uuid = '1155FF54-63D3-4AB2-9863-8385D0BD0A13'asdf
-    (X, Y, M, timestamps, feature_names, label_names) = read_user_data(uuid);
+    (X, Y, M, timestamps, feature_names, label_names) = read_user_data(uuid)
 
     '''
     TESTING: Prints user data'''
