@@ -114,7 +114,7 @@ def get_sensor_names_from_features(feature_names):
     return feat_sensor_names;
 
 def read_user_data(uuid):
-    user_data_file = '/data/users/teewz1076/har/datasets/%s.features_labels.csv.gz' % uuid
+    user_data_file = '/data/users/teewz1076/har/dataset/%s.features_labels.csv.gz' % uuid
 
     # Read the entire csv file of the user:
     with open(user_data_file, 'r') as fid:
@@ -181,7 +181,7 @@ def read_multiple_users_data(uuids):
 
     return (X, Y, M, uuid_inds, timestamps, feature_names, feat_sensor_names, label_names)
 
-    uuid = '1155FF54-63D3-4AB2-9863-8385D0BD0A13'
+    uuid = '00EABED2-271D-49D8-B599-1D4A09240601'
     (X, Y, M, timestamps, feature_names, label_names) = read_user_data(uuid)
 
     '''
