@@ -352,7 +352,7 @@ print(timestamps.shape)
 '''
 
 uuids = ['00EABED2-271D-49D8-B599-1D4A09240601','098A72A5-E3E5-4F54-A152-BBDA0DF7B694','0A986513-7828-4D53-AA1F-E02D6DF9561B','0BFC35E2-4817-4865-BFA7-764742302A2D',
-         '0E6184E1-90C0-48EE-B25A-F1ECB7B9714E']
+         '0E6184E1-90C0-48EE-B25A-F1ECB7B9714E', '1155FF54-63D3-4AB2-9863-8385D0BD0A13', '11B5EC4D-4133-4289-B475-4E737182A406', '136562B6-95B2-483D-88DC-065F28409FD2']
 (X, Y, M, uuid_inds, timestamps, feature_names, label_names) = read_multiple_users_data(uuids)
 
 feat_sensor_names = get_sensor_names_from_features(feature_names);
