@@ -114,7 +114,7 @@ def get_sensor_names_from_features(feature_names):
     return feat_sensor_names;
 
 def read_user_data(uuid):
-    user_data_file = '/data/users/teewz1076/har/dataset/%s.features_labels.csv.gz' % uuid
+    user_data_file = '/data/users/teewz1076/har/datasets/%s.features_labels.csv.gz' % uuid
 
     # Read the entire csv file of the user:
     with open(user_data_file, 'r') as fid:
