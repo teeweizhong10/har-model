@@ -60,6 +60,12 @@ def get_label_pretty_name(label):
         return 'Standing'
     if label == 'WATCHING_TV':
         return 'Watching TV'
+    if label == 'SITTING':
+        return 'Sitting'
+    if label == 'LYING_DOWN':
+        return 'Lying down'
+    if label == 'SLEEPING':
+        return 'Sleeping'
 
     if label.endswith('_'):
         label = label[:-1] + ')'
@@ -355,7 +361,7 @@ uuids = ['00EABED2-271D-49D8-B599-1D4A09240601','098A72A5-E3E5-4F54-A152-BBDA0DF
 
 feat_sensor_names = get_sensor_names_from_features(feature_names);
 
-
+'''
 #TESTING: Prints users data
 print("The parts of the concatenated users' data (and their dimensions):")
 print("Every example has its timestamp, indicating the minute when the example was recorded")
@@ -376,27 +382,30 @@ print("Features:")
 for (fi,feature) in enumerate(feature_names):
     print("%3d) %s %s" % (fi,feat_sensor_names[fi].ljust(10),feature));
     pass;
-
+'''
 
 sensors_to_use = ['Acc','Gyro','WAcc','watch_heading','location']
 target_label = 'FIX_walking'
 model_walk = train_model(X,Y,M,feat_sensor_names,label_names,sensors_to_use,target_label);
 target_label = 'FIX_running'
 model_run = train_model(X,Y,M,feat_sensor_names,label_names,sensors_to_use,target_label);
-target_label = 'OR_indoors'
-model_indoors = train_model(X,Y,M,feat_sensor_names,label_names,sensors_to_use,target_label);
-target_label = 'OR_exercise'
-model_exercise = train_model(X,Y,M,feat_sensor_names,label_names,sensors_to_use,target_label);
-target_label = 'OR_standing'
+target_label = 'OR_STANDING'
 model_standing = train_model(X,Y,M,feat_sensor_names,label_names,sensors_to_use,target_label);
+target_label = 'LYING_DOWN'
+model_lying = train_model(X,Y,M,feat_sensor_names,label_names,sensors_to_use,target_label);
+target_label = 'SITTING'
+model_sitting = train_model(X,Y,M,feat_sensor_names,label_names,sensors_to_use,target_label);
+target_label = 'SLEEPING'
+model_sleeping = train_model(X,Y,M,feat_sensor_names,label_names,sensors_to_use,target_label);
 
 
 testUUIDs = ['FDAA70A1-42A3-4E3F-9AE3-3FDA412E03BF','F50235E0-DD67-4F2A-B00B-1F31ADA998B9','ECECC2AB-D32F-4F90-B74C-E12A1C69BBE2','E65577C1-8D5D-4F70-AF23-B3ADB9D3DBA3',
          'D7D20E2E-FC78-405D-B346-DBD3FD8FC92B']
 (X_test, Y_test, M_test, uuid_inds_test, timestamps_test, feature_names_test, label_names_test) = read_multiple_users_data(testUUIDs)
 feat_sensor_names_test = get_sensor_names_from_features(feature_names_test);
-test_model(X_test,Y_test,M_test,timestamps_test,feat_sensor_names_test,label_names_test,model_walk);
-test_model(X_test,Y_test,M_test,timestamps_test,feat_sensor_names_test,label_names_test,model_run);
-test_model(X_test,Y_test,M_test,timestamps_test,feat_sensor_names_test,label_names_test,model_indoors);
-test_model(X_test,Y_test,M_test,timestamps_test,feat_sensor_names_test,label_names_test,model_exercise);
-test_model(X_test,Y_test,M_test,timestamps_test,feat_sensor_names_test,label_names_test,model_standing);
+test_model(X_test,Y_test,M_test,timestamps_test,feat_sensor_names_test,label_names_test,model_walk)
+test_model(X_test,Y_test,M_test,timestamps_test,feat_sensor_names_test,label_names_test,model_run)
+test_model(X_test,Y_test,M_test,timestamps_test,feat_sensor_names_test,label_names_test,model_standing)
+test_model(X_test,Y_test,M_test,timestamps_test,feat_sensor_names_test,label_names_test,model_lying)
+test_model(X_test,Y_test,M_test,timestamps_test,feat_sensor_names_test,label_names_test,model_sitting)
+test_model(X_test,Y_test,M_test,timestamps_test,feat_sensor_names_test,label_names_test,model_sleeping)
