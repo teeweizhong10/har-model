@@ -259,7 +259,7 @@ def train_model(X_train, Y_train, M_train, feat_sensor_names, label_names, senso
     return model;
 
 def test_model(X_test, Y_test, M_test, timestamps, feat_sensor_names, label_names, model):
-    print("********************************************RESULTS FOR " + label_names + "********************************************")
+    print("********************************************RESULTS FOR " + label_names[0] + "********************************************")
     # Project the feature matrix to the features from the sensors that the classifier is based on:
     X_test = project_features_to_selected_sensors(X_test, feat_sensor_names, model['sensors_to_use']);
     print("== Projected the features to %d features from the sensors: %s" % (
