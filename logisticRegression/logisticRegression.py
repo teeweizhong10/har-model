@@ -258,8 +258,8 @@ def train_model(X_train, Y_train, M_train, feat_sensor_names, label_names, senso
 
     return model;
 
-def test_model(X_test, Y_test, M_test, timestamps, feat_sensor_names, label_names, model):
-    print("********************************************RESULTS FOR " + label_names[0] + "********************************************")
+def test_model(X_test, Y_test, M_test, timestamps, feat_sensor_names, label_names, target_label_test, model):
+    print("********************************************RESULTS FOR " + target_label_test + "********************************************")
     # Project the feature matrix to the features from the sensors that the classifier is based on:
     X_test = project_features_to_selected_sensors(X_test, feat_sensor_names, model['sensors_to_use']);
     print("== Projected the features to %d features from the sensors: %s" % (
@@ -283,7 +283,7 @@ def test_model(X_test, Y_test, M_test, timestamps, feat_sensor_names, label_name
     X_test[np.isnan(X_test)] = 0.;
 
     print("== Testing with %d examples. For label '%s' we have %d positive and %d negative examples." % \
-          (len(y), get_label_pretty_name(target_label), sum(y), sum(np.logical_not(y))));
+          (len(y), get_label_pretty_name(target_label_test), sum(y), sum(np.logical_not(y))));
 
     # Preform the prediction:
     y_pred = model['lr_model'].predict(X_test);
@@ -399,12 +399,18 @@ testUUIDs = ['FDAA70A1-42A3-4E3F-9AE3-3FDA412E03BF','F50235E0-DD67-4F2A-B00B-1F3
          'D7D20E2E-FC78-405D-B346-DBD3FD8FC92B']
 (X_test, Y_test, M_test, uuid_inds_test, timestamps_test, feature_names_test, label_names_test) = read_multiple_users_data(testUUIDs)
 feat_sensor_names_test = get_sensor_names_from_features(feature_names_test);
-test_model(X_test,Y_test,M_test,timestamps_test,feat_sensor_names_test,label_names_test,model_walk)
-test_model(X_test,Y_test,M_test,timestamps_test,feat_sensor_names_test,label_names_test,model_run)
-test_model(X_test,Y_test,M_test,timestamps_test,feat_sensor_names_test,label_names_test,model_standing)
-test_model(X_test,Y_test,M_test,timestamps_test,feat_sensor_names_test,label_names_test,model_lying)
-test_model(X_test,Y_test,M_test,timestamps_test,feat_sensor_names_test,label_names_test,model_sitting)
-test_model(X_test,Y_test,M_test,timestamps_test,feat_sensor_names_test,label_names_test,model_sleeping)
+target_label_test = 'FIX_walking'
+test_model(X_test,Y_test,M_test,timestamps_test,feat_sensor_names_test,label_names_test,target_label_test,model_walk)
+target_label_test = 'FIX_running'
+test_model(X_test,Y_test,M_test,timestamps_test,feat_sensor_names_test,label_names_test,target_label_test,model_run)
+target_labe_testl = 'OR_standing'
+test_model(X_test,Y_test,M_test,timestamps_test,feat_sensor_names_test,label_names_test,target_label_test,model_standing)
+target_label_test = 'LYING_DOWN'
+test_model(X_test,Y_test,M_test,timestamps_test,feat_sensor_names_test,label_names_test,target_label_test,model_lying)
+target_label_test = 'SITTING'
+test_model(X_test,Y_test,M_test,timestamps_test,feat_sensor_names_test,label_names_test,target_label_test,model_sitting)
+target_label_test = 'SLEEPING'
+test_model(X_test,Y_test,M_test,timestamps_test,feat_sensor_names_test,label_names_test,target_label_test,model_sleeping)
 
 print(
     '* The accuracy metric is misleading - it is dominated by the negative examples (typically there are many more negatives).')
