@@ -355,7 +355,7 @@ uuids = ['00EABED2-271D-49D8-B599-1D4A09240601','098A72A5-E3E5-4F54-A152-BBDA0DF
 
 feat_sensor_names = get_sensor_names_from_features(feature_names);
 
-'''
+
 #TESTING: Prints users data
 print("The parts of the concatenated users' data (and their dimensions):")
 print("Every example has its timestamp, indicating the minute when the example was recorded")
@@ -376,7 +376,7 @@ print("Features:")
 for (fi,feature) in enumerate(feature_names):
     print("%3d) %s %s" % (fi,feat_sensor_names[fi].ljust(10),feature));
     pass;
-'''
+
 
 sensors_to_use = ['Acc','Gyro','WAcc','watch_heading','location']
 target_label = 'FIX_walking'
