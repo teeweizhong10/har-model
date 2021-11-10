@@ -138,7 +138,7 @@ def validate_column_names_are_consistent(old_column_names, new_column_names):
         pass;
     return;
 
-'''
+
 def read_multiple_users_data(uuids):
     feature_names = None;
     feat_sensor_names = None;
@@ -149,10 +149,9 @@ def read_multiple_users_data(uuids):
     timestamps_parts = [];
     uuid_inds_parts = [];
     for (ui, uuid) in enumerate(uuids):
-        (X_i, Y_i, M_i, timestamps_i, feature_names_i, feat_sensor_names_i, label_names_i)
+        (X_i, Y_i, M_i, timestamps_i, feature_names_i, label_names_i) = read_user_data(uuid)
         if feature_names is None:
             feature_names = feature_names_i;
-            feat_sensor_names = feat_sensor_names_i;
             pass;
         else:
             validate_column_names_are_consistent(feature_names, feature_names_i)
@@ -178,12 +177,10 @@ def read_multiple_users_data(uuids):
     uuid_inds = np.concatenate(tuple(uuid_inds_parts), axis=0);
 
     return (X, Y, M, uuid_inds, timestamps, feature_names, label_names)
-'''
+
 
 uuid = '00EABED2-271D-49D8-B599-1D4A09240601'
 (X, Y, M, timestamps, feature_names, label_names) = read_user_data(uuid)
-uuid2 ='098A72A5-E3E5-4F54-A152-BBDA0DF7B694'
-(X, Y, M, timestamps, feature_names, label_names) = (X, Y, M, timestamps, feature_names, label_names) (read_user_data(uuid2))
 
 '''
 TESTING: Prints user data'''
@@ -192,13 +189,11 @@ print("Every example has its timestamp, indicating the minute when the example w
 print("User %s has %d examples (~%d minutes of behavior)" % (uuid,len(timestamps),len(timestamps)))
 print(timestamps.shape)
 
-'''
+
 (X, Y, M, uuid_inds, timestamps, feature_names, label_names) = read_multiple_users_data(['00EABED2-271D-49D8-B599-1D4A09240601', '098A72A5-E3E5-4F54-A152-BBDA0DF7B694'])
 
-
-TESTING: Prints user data
-print("The parts of the user's data (and their dimensions):")
+#TESTING: Prints user data
+print("The parts of the concatenated users' data (and their dimensions):")
 print("Every example has its timestamp, indicating the minute when the example was recorded")
 print("User %s has %d examples (~%d minutes of behavior)" % (uuid,len(timestamps),len(timestamps)))
 print(timestamps.shape)
-'''
