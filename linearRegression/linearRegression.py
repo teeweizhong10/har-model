@@ -310,7 +310,7 @@ def test_model(X_test, Y_test, M_test, timestamps, feat_sensor_names, label_name
     plt.xlabel('days of participation', fontsize=14)
     ax.legend(loc='best')
     plt.title('%s\nGround truth vs. predicted' % get_label_pretty_name(model['target_label']));
-    plt.savefig('Logistic Regression' + target_label_test + '.png')
+    plt.savefig('SVM' + target_label_test + '.png')
     plt.clf()
     
 
@@ -354,7 +354,7 @@ uuids = ['00EABED2-271D-49D8-B599-1D4A09240601', '098A72A5-E3E5-4F54-A152-BBDA0D
          'B7F9D634-263E-4A97-87F9-6FFB4DDCB36C', 'B9724848-C7E2-45F4-9B3F-A1F38D864495',
          'BE3CA5A6-A561-4BBD-B7C9-5DF6805400FC', 'BEF6C611-50DA-4971-A040-87FB979F3FC1']
 tempuuid = ['00EABED2-271D-49D8-B599-1D4A09240601', '098A72A5-E3E5-4F54-A152-BBDA0DF7B694']
-(X, Y, M, uuid_inds, timestamps, feature_names, label_names) = read_multiple_users_data(uuids)
+(X, Y, M, uuid_inds, timestamps, feature_names, label_names) = read_multiple_users_data(tempuuid)
 
 feat_sensor_names = get_sensor_names_from_features(feature_names);
 
@@ -384,6 +384,7 @@ for (fi,feature) in enumerate(feature_names):
 sensors_to_use = ['Acc', 'Gyro', 'WAcc', 'watch_heading', 'location']
 target_label = 'FIX_walking'
 model_walk = train_model(X, Y, M, feat_sensor_names, label_names, sensors_to_use, target_label)
+'''
 target_label = 'FIX_running'
 model_run = train_model(X, Y, M, feat_sensor_names, label_names, sensors_to_use, target_label)
 target_label = 'OR_standing'
@@ -394,6 +395,7 @@ target_label = 'SITTING'
 model_sitting = train_model(X, Y, M, feat_sensor_names, label_names, sensors_to_use, target_label)
 target_label = 'SLEEPING'
 model_sleeping = train_model(X, Y, M, feat_sensor_names, label_names, sensors_to_use, target_label)
+'''
 
 testUUIDs = ['FDAA70A1-42A3-4E3F-9AE3-3FDA412E03BF', 'F50235E0-DD67-4F2A-B00B-1F31ADA998B9',
              'ECECC2AB-D32F-4F90-B74C-E12A1C69BBE2', 'E65577C1-8D5D-4F70-AF23-B3ADB9D3DBA3',
@@ -402,11 +404,12 @@ testUUIDs = ['FDAA70A1-42A3-4E3F-9AE3-3FDA412E03BF', 'F50235E0-DD67-4F2A-B00B-1F
              'CA820D43-E5E2-42EF-9798-BE56F776370B', 'C48CE857-A0DD-4DDB-BEA5-3A25449B2153']
 temptestuuid = ['FDAA70A1-42A3-4E3F-9AE3-3FDA412E03BF']
 (X_test, Y_test, M_test, uuid_inds_test, timestamps_test, feature_names_test,
- label_names_test) = read_multiple_users_data(testUUIDs)
+ label_names_test) = read_multiple_users_data(temptestuuid)
 feat_sensor_names_test = get_sensor_names_from_features(feature_names_test);
 target_label_test = 'FIX_walking'
 test_model(X_test, Y_test, M_test, timestamps_test, feat_sensor_names_test, label_names_test, target_label_test,
            model_walk)
+'''
 target_label_test = 'FIX_running'
 test_model(X_test, Y_test, M_test, timestamps_test, feat_sensor_names_test, label_names_test, target_label_test,
            model_run)
@@ -422,7 +425,7 @@ test_model(X_test, Y_test, M_test, timestamps_test, feat_sensor_names_test, labe
 target_label_test = 'SLEEPING'
 test_model(X_test, Y_test, M_test, timestamps_test, feat_sensor_names_test, label_names_test, target_label_test,
            model_sleeping)
-
+'''
 print(
     '* The accuracy metric is misleading - it is dominated by the negative examples (typically there are many more negatives).')
 print(
