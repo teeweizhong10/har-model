@@ -331,7 +331,7 @@ def test_model(X_test, Y_test, M_test, timestamps, feat_sensor_names, label_name
 
     ax.set_ylim([0.5, 5]);
     ax.set_xticks(tick_seconds);
-    ax.set_xticklabels(tick_labels);
+    #ax.set_xticklabels(tick_labels);
     plt.xlabel('days of participation', fontsize=14);
     ax.legend(loc='best');
     plt.title('%s\nGround truth vs. predicted' % get_label_pretty_name(model['target_label']));
