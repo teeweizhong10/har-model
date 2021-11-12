@@ -4,7 +4,7 @@ import numpy as np
 import gzip
 from io import StringIO
 import sklearn.linear_model
-from sklearn.metrics import plot_confusion_matrix
+from sklearn.metrics import plot_confusion_matrix, confusion_matrix, ConfusionMatrixDisplay
 
 def parse_header_of_csv(csv_str):
     headline = csv_str[:csv_str.index('\n')]
@@ -338,17 +338,10 @@ def test_model(X_test, Y_test, M_test, timestamps, feat_sensor_names, label_name
     plt.savefig('Logistic Regression' + target_label_test + '.png')
     plt.clf()
 
-    class_names = y
-    titles_options = [("Confusion matrix for " + target_label_test +", without normalization", None),
-                      ("Normalized confusion matrix for " + target_label_test)]
-    for title, normalize in titles_options:
-        disp = plot_confusion_matrix(model, X_test, Y_test,
-                                     display_labels=class_names,
-                                     cmap='viridis',
-                                     normalize=normalize)
-        disp.ax_.set_title(title)
-        disp.savefig('LogisticRegressionConfusionMatrix' + target_label_test + '.png')
-        disp.clf()
+    class_names = target_label_test
+    cm = confusion_matrix(Y_test, y_pred, labels=class_names)
+    disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels = class_names)
+    plt.savefig('LogisticRegressionConfMatrix' + target_label_test + '.png')
 
     return;
 
