@@ -320,10 +320,10 @@ def test_model(X_test, Y_test, M_test, timestamps, feat_sensor_names, label_name
     print('Precision**:       %.2f' % precision);
     print("-" * 10);
 
-    fig = plt.figure(figsize=(10, 4), facecolor='white');
+    fig = plt.figure(figsize=(13, 5), facecolor='white');
     ax = plt.subplot(1, 1, 1);
-    ax.plot(timestamps[y], 1.4 * np.ones(sum(y)), '|g', markersize=10, label='ground truth');
-    ax.plot(timestamps[y_pred], np.ones(sum(y_pred)), '|b', markersize=10, label='prediction');
+    ax.plot(timestamps[y], 1.4 * np.ones(sum(y)), '|g', markersize=13, label='ground truth');
+    ax.plot(timestamps[y_pred], np.ones(sum(y_pred)), '|b', markersize=13, label='prediction');
 
     seconds_in_day = (60 * 60 * 24);
     tick_seconds = range(timestamps[0], timestamps[-1], seconds_in_day);
@@ -341,7 +341,9 @@ def test_model(X_test, Y_test, M_test, timestamps, feat_sensor_names, label_name
     class_names = y
     cm = confusion_matrix(y, y_pred, labels=class_names)
     disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels = class_names)
-    disp.savefig('LogisticRegressionConfMatrix' + target_label_test + '.png')
+    disp.plot()
+    plt.show(disp)
+    plt.savefig('LogisticRegressionConfMatrix' + target_label_test + '.png')
     plt.clf()
 
     return;
