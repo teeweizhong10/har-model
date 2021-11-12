@@ -294,10 +294,11 @@ def test_model(X_test, Y_test, M_test, timestamps, feat_sensor_names, label_name
     print('Precision**:       %.2f' % precision)
     print("-" * 10)
 
+    '''
     fig = plt.figure(figsize=(10, 4), facecolor='white')
     ax = plt.subplot(1, 1, 1)
-    ax.plot(timestamps[y], 1.4 * np.ones(sum(y)), markersize=10, label='ground truth')
-    ax.plot(timestamps[y_pred], np.ones(sum(y_pred)), markersize=10, label='prediction')
+    ax.plot(timestamps[y], 1.4 * np.ones(sum(y)), '|g', markersize=10, label='ground truth')
+    ax.plot(timestamps[y_pred], np.ones(sum(y_pred)), '|b', markersize=10, label='prediction')
 
     seconds_in_day = (60 * 60 * 24)
     tick_seconds = range(timestamps[0], timestamps[-1], seconds_in_day)
@@ -311,6 +312,8 @@ def test_model(X_test, Y_test, M_test, timestamps, feat_sensor_names, label_name
     plt.title('%s\nGround truth vs. predicted' % get_label_pretty_name(model['target_label']));
     plt.savefig('Logistic Regression' + target_label_test + '.png')
     plt.clf()
+    
+    '''
     return;
 
 
