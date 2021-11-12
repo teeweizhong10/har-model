@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import gzip
 from io import StringIO
-import sklearn.linear_model
+from sklearn import svm
 from sklearn.metrics import plot_confusion_matrix, confusion_matrix, ConfusionMatrixDisplay
 
 
@@ -235,7 +235,7 @@ def train_model(X_train, Y_train, M_train, feat_sensor_names, label_names, senso
     print("== Training with %d examples. For label '%s' we have %d positive and %d negative examples." % \
           (len(y), get_label_pretty_name(target_label), sum(y), sum(np.logical_not(y))))
 
-    lr_model = sklearn.linear_model.LinearRegression()
+    lr_model = svm.SVC()
     lr_model.fit(X_train, y)
 
     # Assemble all the parts of the model:
@@ -294,7 +294,7 @@ def test_model(X_test, Y_test, M_test, timestamps, feat_sensor_names, label_name
     print('Precision**:       %.2f' % precision)
     print("-" * 10)
 
-    '''
+
     fig = plt.figure(figsize=(10, 4), facecolor='white')
     ax = plt.subplot(1, 1, 1)
     ax.plot(timestamps[y], 1.4 * np.ones(sum(y)), '|g', markersize=10, label='ground truth')
@@ -313,7 +313,7 @@ def test_model(X_test, Y_test, M_test, timestamps, feat_sensor_names, label_name
     plt.savefig('Logistic Regression' + target_label_test + '.png')
     plt.clf()
     
-    '''
+
     return;
 
 
