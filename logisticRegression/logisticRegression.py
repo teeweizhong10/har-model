@@ -320,7 +320,7 @@ def test_model(X_test, Y_test, M_test, timestamps, feat_sensor_names, label_name
     print('Precision**:       %.2f' % precision);
     print("-" * 10);
 
-    fig = plt.figure(figsize=(15, 7), facecolor='white');
+    fig = plt.figure(figsize=(10, 4), facecolor='white');
     ax = plt.subplot(1, 1, 1);
     ax.plot(timestamps[y], 1.4 * np.ones(sum(y)), '|g', markersize=10, label='ground truth');
     ax.plot(timestamps[y_pred], np.ones(sum(y_pred)), '|b', markersize=10, label='prediction');
@@ -341,7 +341,7 @@ def test_model(X_test, Y_test, M_test, timestamps, feat_sensor_names, label_name
     class_names = y
     cm = confusion_matrix(y, y_pred, labels=class_names)
     disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels = class_names)
-    plt.savefig('LogisticRegressionConfMatrix' + target_label_test + '.png')
+    disp.savefig('LogisticRegressionConfMatrix' + target_label_test + '.png')
     plt.clf()
 
     return;
@@ -371,7 +371,8 @@ uuids = ['00EABED2-271D-49D8-B599-1D4A09240601', '098A72A5-E3E5-4F54-A152-BBDA0D
          '9DC38D04-E82E-4F29-AB52-B476535226F2', 'A5A30F76-581E-4757-97A2-957553A2C6AA', 'A5CDF89D-02A2-4EC1-89F8-F534FDABDD96', 'A7599A50-24AE-46A6-8EA6-2576F1011D81',
          'A76A5AF5-5A93-4CF2-A16E-62353BB70E8A', 'B09E373F-8A54-44C8-895B-0039390B859F', 'B7F9D634-263E-4A97-87F9-6FFB4DDCB36C', 'B9724848-C7E2-45F4-9B3F-A1F38D864495',
          'BE3CA5A6-A561-4BBD-B7C9-5DF6805400FC', 'BEF6C611-50DA-4971-A040-87FB979F3FC1']
-(X, Y, M, uuid_inds, timestamps, feature_names, label_names) = read_multiple_users_data(uuids)
+tempuuid = ['00EABED2-271D-49D8-B599-1D4A09240601', '098A72A5-E3E5-4F54-A152-BBDA0DF7B694']
+(X, Y, M, uuid_inds, timestamps, feature_names, label_names) = read_multiple_users_data(tempuuid)
 
 feat_sensor_names = get_sensor_names_from_features(feature_names);
 
@@ -416,7 +417,8 @@ model_sleeping = train_model(X,Y,M,feat_sensor_names,label_names,sensors_to_use,
 testUUIDs = ['FDAA70A1-42A3-4E3F-9AE3-3FDA412E03BF', 'F50235E0-DD67-4F2A-B00B-1F31ADA998B9', 'ECECC2AB-D32F-4F90-B74C-E12A1C69BBE2', 'E65577C1-8D5D-4F70-AF23-B3ADB9D3DBA3',
              'D7D20E2E-FC78-405D-B346-DBD3FD8FC92B', 'CF722AA9-2533-4E51-9FEB-9EAC84EE9AAC', 'CDA3BBF7-6631-45E8-85BA-EEB416B32A3C', 'CCAF77F0-FABB-4F2F-9E24-D56AD0C5A82F',
              'CA820D43-E5E2-42EF-9798-BE56F776370B', 'C48CE857-A0DD-4DDB-BEA5-3A25449B2153']
-(X_test, Y_test, M_test, uuid_inds_test, timestamps_test, feature_names_test, label_names_test) = read_multiple_users_data(testUUIDs)
+temptestuuid = ['FDAA70A1-42A3-4E3F-9AE3-3FDA412E03BF']
+(X_test, Y_test, M_test, uuid_inds_test, timestamps_test, feature_names_test, label_names_test) = read_multiple_users_data(temptestuuid)
 feat_sensor_names_test = get_sensor_names_from_features(feature_names_test);
 target_label_test = 'FIX_walking'
 test_model(X_test,Y_test,M_test,timestamps_test,feat_sensor_names_test,label_names_test,target_label_test,model_walk)
