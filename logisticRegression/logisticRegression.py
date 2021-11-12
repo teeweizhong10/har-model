@@ -341,8 +341,6 @@ def test_model(X_test, Y_test, M_test, timestamps, feat_sensor_names, label_name
     class_names = y
     cm = confusion_matrix(y, y_pred, labels=class_names)
     disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels = class_names)
-    disp.plot()
-    plt.show(disp)
     plt.savefig('LogisticRegressionConfMatrix' + target_label_test + '.png')
     plt.clf()
 
