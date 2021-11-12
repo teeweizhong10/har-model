@@ -354,7 +354,7 @@ uuids = ['00EABED2-271D-49D8-B599-1D4A09240601', '098A72A5-E3E5-4F54-A152-BBDA0D
          'B7F9D634-263E-4A97-87F9-6FFB4DDCB36C', 'B9724848-C7E2-45F4-9B3F-A1F38D864495',
          'BE3CA5A6-A561-4BBD-B7C9-5DF6805400FC', 'BEF6C611-50DA-4971-A040-87FB979F3FC1']
 tempuuid = ['00EABED2-271D-49D8-B599-1D4A09240601', '098A72A5-E3E5-4F54-A152-BBDA0DF7B694']
-(X, Y, M, uuid_inds, timestamps, feature_names, label_names) = read_multiple_users_data(tempuuid)
+(X, Y, M, uuid_inds, timestamps, feature_names, label_names) = read_multiple_users_data(uuids)
 
 feat_sensor_names = get_sensor_names_from_features(feature_names);
 
@@ -404,7 +404,7 @@ testUUIDs = ['FDAA70A1-42A3-4E3F-9AE3-3FDA412E03BF', 'F50235E0-DD67-4F2A-B00B-1F
              'CA820D43-E5E2-42EF-9798-BE56F776370B', 'C48CE857-A0DD-4DDB-BEA5-3A25449B2153']
 temptestuuid = ['FDAA70A1-42A3-4E3F-9AE3-3FDA412E03BF']
 (X_test, Y_test, M_test, uuid_inds_test, timestamps_test, feature_names_test,
- label_names_test) = read_multiple_users_data(temptestuuid)
+ label_names_test) = read_multiple_users_data(testUUIDs)
 feat_sensor_names_test = get_sensor_names_from_features(feature_names_test);
 target_label_test = 'FIX_walking'
 test_model(X_test, Y_test, M_test, timestamps_test, feat_sensor_names_test, label_names_test, target_label_test,
