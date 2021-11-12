@@ -330,7 +330,7 @@ def test_model(X_test, Y_test, M_test, timestamps, feat_sensor_names, label_name
     tick_labels = (np.array(tick_seconds - timestamps[0]).astype(float) / float(seconds_in_day)).astype(int);
 
     ax.set_ylim([0.5, 5]);
-    ax.set_xticks(tick_seconds);
+    #ax.set_xticks(tick_seconds);
     #ax.set_xticklabels(tick_labels);
     plt.xlabel('days of participation', fontsize=14);
     ax.legend(loc='best');
