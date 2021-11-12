@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import gzip
 from io import StringIO
-import sklearn.linear_model import LinearRegression
+from sklearn.linear_model import LinearRegression
 from sklearn.metrics import plot_confusion_matrix, confusion_matrix, ConfusionMatrixDisplay
 
 def parse_header_of_csv(csv_str):
