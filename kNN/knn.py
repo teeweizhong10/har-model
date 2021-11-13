@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import gzip
 from io import StringIO
+from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import plot_confusion_matrix, confusion_matrix, ConfusionMatrixDisplay
@@ -382,10 +383,13 @@ for (fi,feature) in enumerate(feature_names):
     pass
 '''
 scaler = StandardScaler()
+XY = pd.concat([X, Y], axis=1, sort=False)
 sensors_to_use = ['Acc', 'Gyro', 'WAcc', 'watch_heading', 'location']
 scaler.fit(XY[sensors_to_use])
+scaled_features = scaler.transform(XY[sensors_to_use])
 target_label = 'FIX_walking'
-model_walk = train_model(X, Y, M, feat_sensor_names, label_names, sensors_to_use, target_label)
+X_train, X_test, y_train, y_test = train_test_split(scaled_features,XY['label:' + target_label],test_size=0.30, random_state=42)
+model_walk = train_model(X_train, y_train, M, feat_sensor_names, label_names, sensors_to_use, target_label)
 '''
 target_label = 'FIX_running'
 model_run = train_model(X, Y, M, feat_sensor_names, label_names, sensors_to_use, target_label)
