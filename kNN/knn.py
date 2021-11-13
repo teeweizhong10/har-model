@@ -1,9 +1,8 @@
 import matplotlib.pyplot as plt
-import pandas as pd
+
 import numpy as np
 import gzip
 from io import StringIO
-from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import plot_confusion_matrix, confusion_matrix, ConfusionMatrixDisplay
@@ -312,7 +311,7 @@ def test_model(X_test, Y_test, M_test, timestamps, feat_sensor_names, label_name
     plt.xlabel('days of participation', fontsize=14)
     ax.legend(loc='best')
     plt.title('%s\nGround truth vs. predicted' % get_label_pretty_name(model['target_label']));
-    plt.savefig('SVM_' + target_label_test + '.png')
+    plt.savefig('knn' + target_label_test + '.png')
     plt.clf()
     
 
@@ -382,14 +381,11 @@ for (fi,feature) in enumerate(feature_names):
     print("%3d) %s %s" % (fi,feat_sensor_names[fi].ljust(10),feature))
     pass
 '''
-scaler = StandardScaler()
-XY = pd.concat([X, Y], axis=1, sort=False)
+#scaler = StandardScaler()
 sensors_to_use = ['Acc', 'Gyro', 'WAcc', 'watch_heading', 'location']
-scaler.fit(XY[sensors_to_use])
-scaled_features = scaler.transform(XY[sensors_to_use])
+#scaler.fit(XY[sensors_to_use])
 target_label = 'FIX_walking'
-X_train, X_test, y_train, y_test = train_test_split(scaled_features,XY['label:' + target_label],test_size=0.30, random_state=42)
-model_walk = train_model(X_train, y_train, M, feat_sensor_names, label_names, sensors_to_use, target_label)
+model_walk = train_model(X, Y, M, feat_sensor_names, label_names, sensors_to_use, target_label)
 '''
 target_label = 'FIX_running'
 model_run = train_model(X, Y, M, feat_sensor_names, label_names, sensors_to_use, target_label)
