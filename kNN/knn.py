@@ -311,7 +311,7 @@ def test_model(X_test, Y_test, M_test, timestamps, feat_sensor_names, label_name
     plt.xlabel('days of participation', fontsize=14)
     ax.legend(loc='best')
     plt.title('%s\nGround truth vs. predicted' % get_label_pretty_name(model['target_label']));
-    plt.savefig('knn' + target_label_test + '.png')
+    plt.savefig('knn_' + target_label_test + '.png')
     plt.clf()
     
 
@@ -386,7 +386,6 @@ sensors_to_use = ['Acc', 'Gyro', 'WAcc', 'watch_heading', 'location']
 #scaler.fit(XY[sensors_to_use])
 target_label = 'FIX_walking'
 model_walk = train_model(X, Y, M, feat_sensor_names, label_names, sensors_to_use, target_label)
-'''
 target_label = 'FIX_running'
 model_run = train_model(X, Y, M, feat_sensor_names, label_names, sensors_to_use, target_label)
 target_label = 'OR_standing'
@@ -397,7 +396,6 @@ target_label = 'SITTING'
 model_sitting = train_model(X, Y, M, feat_sensor_names, label_names, sensors_to_use, target_label)
 target_label = 'SLEEPING'
 model_sleeping = train_model(X, Y, M, feat_sensor_names, label_names, sensors_to_use, target_label)
-'''
 
 testUUIDs = ['FDAA70A1-42A3-4E3F-9AE3-3FDA412E03BF', 'F50235E0-DD67-4F2A-B00B-1F31ADA998B9',
              'ECECC2AB-D32F-4F90-B74C-E12A1C69BBE2', 'E65577C1-8D5D-4F70-AF23-B3ADB9D3DBA3',
@@ -411,7 +409,6 @@ feat_sensor_names_test = get_sensor_names_from_features(feature_names_test);
 target_label_test = 'FIX_walking'
 test_model(X_test, Y_test, M_test, timestamps_test, feat_sensor_names_test, label_names_test, target_label_test,
            model_walk)
-'''
 target_label_test = 'FIX_running'
 test_model(X_test, Y_test, M_test, timestamps_test, feat_sensor_names_test, label_names_test, target_label_test,
            model_run)
@@ -427,7 +424,6 @@ test_model(X_test, Y_test, M_test, timestamps_test, feat_sensor_names_test, labe
 target_label_test = 'SLEEPING'
 test_model(X_test, Y_test, M_test, timestamps_test, feat_sensor_names_test, label_names_test, target_label_test,
            model_sleeping)
-        '''
 print(
     '* The accuracy metric is misleading - it is dominated by the negative examples (typically there are many more negatives).')
 print(
