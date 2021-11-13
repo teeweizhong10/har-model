@@ -236,7 +236,7 @@ def train_model(X_train, Y_train, M_train, feat_sensor_names, label_names, senso
     print("== Training with %d examples. For label '%s' we have %d positive and %d negative examples." % \
           (len(y), get_label_pretty_name(target_label), sum(y), sum(np.logical_not(y))))
 
-    lr_model = KNeighborsClassifier(n_neighbors=17) #lower error rate neighbor
+    lr_model = KNeighborsClassifier(n_neighbors= 30) #lower error rate neighbor
     lr_model.fit(X_train, y)
 
     # Assemble all the parts of the model:
