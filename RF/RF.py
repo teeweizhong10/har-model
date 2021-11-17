@@ -5,7 +5,9 @@ import gzip
 from io import StringIO
 import sklearn.linear_model
 from sklearn.ensemble import RandomForestClassifier
-
+from sklearn.metrics import roc_curve, auc
+from sklearn.metrics import roc_auc_score
+from matplotlib import pyplot
 
 def parse_header_of_csv(csv_str):
     headline = csv_str[:csv_str.index('\n')]
@@ -235,7 +237,7 @@ def train_model(X_train, Y_train, M_train, feat_sensor_names, label_names, senso
     print("== Training with %d examples. For label '%s' we have %d positive and %d negative examples." % \
           (len(y), get_label_pretty_name(target_label), sum(y), sum(np.logical_not(y))))
 
-    lr_model = RandomForestClassifier(n_estimators=500, oob_score = True, random_state=1)
+    lr_model = RandomForestClassifier(n_estimators=100, oob_score = True, random_state=1)
     lr_model.fit(X_train, y)
 
     # Assemble all the parts of the model:
@@ -285,6 +287,13 @@ def test_model(X_test, Y_test, M_test, timestamps, feat_sensor_names, label_name
     specificity = float(tn) / (tn + fp)
     balanced_accuracy = (sensitivity + specificity) / 2.
     precision = float(tp) / (tp + fp)
+    recall = float(tp) / (tp + fn)
+
+    ns_probs = [0 for _ in range(len(Y_test))]
+    lr_probs = y_pred[:, 1]
+
+    ns_auc = roc_auc_score(Y_test, ns_probs)
+    lr_auc = roc_auc_score(Y_test, lr_probs)
 
     print("-" * 10)
     print('Accuracy*:         %.2f' % accuracy)
@@ -292,7 +301,25 @@ def test_model(X_test, Y_test, M_test, timestamps, feat_sensor_names, label_name
     print('Specificity (TNR): %.2f' % specificity)
     print('Balanced accuracy: %.2f' % balanced_accuracy)
     print('Precision**:       %.2f' % precision)
+    print('Recall:       %.2f' % recall)
+    print('No Skill: ROC AUC=%.3f' % (ns_auc))
+    print('Logistic: ROC AUC=%.3f' % (lr_auc))
     print("-" * 10)
+
+    ns_fpr, ns_tpr, _ = roc_curve(Y_test, ns_probs)
+    lr_fpr, lr_tpr, _ = roc_curve(Y_test, lr_probs)
+
+    # plot the roc curve for the model
+    pyplot.plot(ns_fpr, ns_tpr, linestyle='--', label='No Skill')
+    pyplot.plot(lr_fpr, lr_tpr, marker='.', label='Logistic')
+    # axis labels
+    pyplot.xlabel('False Positive Rate')
+    pyplot.ylabel('True Positive Rate')
+    # show the legend
+    pyplot.legend()
+    plt.title('%s\nROC curve for' % get_label_pretty_name(model['target_label']));
+    plt.savefig('ROC_RF500NewMetT' + target_label_test + '.png')
+    plt.clf()
 
     fig = plt.figure(figsize=(10, 4), facecolor='white')
     ax = plt.subplot(1, 1, 1)
@@ -309,7 +336,7 @@ def test_model(X_test, Y_test, M_test, timestamps, feat_sensor_names, label_name
     plt.xlabel('days of participation', fontsize=14)
     ax.legend(loc='best')
     plt.title('%s\nGround truth vs. predicted' % get_label_pretty_name(model['target_label']));
-    plt.savefig('RF500all' + target_label_test + '.png')
+    plt.savefig('RFNewMetT' + target_label_test + '.png')
     plt.clf()
     return;
 
@@ -381,6 +408,7 @@ for (fi,feature) in enumerate(feature_names):
 sensors_to_use = ['Acc', 'Gyro', 'WAcc', 'watch_heading', 'location']
 target_label = 'FIX_walking'
 model_walk = train_model(X, Y, M, feat_sensor_names, label_names, sensors_to_use, target_label)
+'''
 target_label = 'FIX_running'
 model_run = train_model(X,Y,M,feat_sensor_names,label_names,sensors_to_use,target_label)
 target_label = 'OR_standing'
@@ -391,6 +419,7 @@ target_label = 'SITTING'
 model_sitting = train_model(X,Y,M,feat_sensor_names,label_names,sensors_to_use,target_label)
 target_label = 'SLEEPING'
 model_sleeping = train_model(X,Y,M,feat_sensor_names,label_names,sensors_to_use,target_label)
+'''
 
 testUUIDs = ['FDAA70A1-42A3-4E3F-9AE3-3FDA412E03BF', 'F50235E0-DD67-4F2A-B00B-1F31ADA998B9',
              'ECECC2AB-D32F-4F90-B74C-E12A1C69BBE2', 'E65577C1-8D5D-4F70-AF23-B3ADB9D3DBA3',
@@ -404,6 +433,7 @@ feat_sensor_names_test = get_sensor_names_from_features(feature_names_test);
 target_label_test = 'FIX_walking'
 test_model(X_test, Y_test, M_test, timestamps_test, feat_sensor_names_test, label_names_test, target_label_test,
            model_walk)
+'''
 target_label_test = 'FIX_running'
 test_model(X_test,Y_test,M_test,timestamps_test,feat_sensor_names_test,label_names_test,target_label_test,model_run)
 target_labe_testl = 'OR_standing'
@@ -414,6 +444,7 @@ target_label_test = 'SITTING'
 test_model(X_test,Y_test,M_test,timestamps_test,feat_sensor_names_test,label_names_test,target_label_test,model_sitting)
 target_label_test = 'SLEEPING'
 test_model(X_test,Y_test,M_test,timestamps_test,feat_sensor_names_test,label_names_test,target_label_test,model_sleeping)
+'''
 
 print(
     '* The accuracy metric is misleading - it is dominated by the negative examples (typically there are many more negatives).')
