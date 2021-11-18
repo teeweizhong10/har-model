@@ -5,6 +5,7 @@ import gzip
 from io import StringIO
 import sklearn.linear_model
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import RocCurveDisplay
 from sklearn.metrics import roc_curve, auc
 from sklearn.metrics import roc_auc_score
 from matplotlib import pyplot
@@ -289,12 +290,13 @@ def test_model(X_test, Y_test, M_test, timestamps, feat_sensor_names, label_name
     precision = float(tp) / (tp + fp)
     recall = float(tp) / (tp + fn)
 
+    '''
     ns_probs = [0 for _ in range(len(Y_test))]
-    lr_probs = y_pred[:]
+    lr_probs = y_pred[:, 1]
 
     ns_auc = roc_auc_score(Y_test, ns_probs)
     lr_auc = roc_auc_score(Y_test, lr_probs)
-
+    '''
     print("-" * 10)
     print('Accuracy*:         %.2f' % accuracy)
     print('Sensitivity (TPR): %.2f' % sensitivity)
@@ -302,10 +304,15 @@ def test_model(X_test, Y_test, M_test, timestamps, feat_sensor_names, label_name
     print('Balanced accuracy: %.2f' % balanced_accuracy)
     print('Precision**:       %.2f' % precision)
     print('Recall:       %.2f' % recall)
+    '''
     print('No Skill: ROC AUC=%.3f' % (ns_auc))
     print('Logistic: ROC AUC=%.3f' % (lr_auc))
+    '''
     print("-" * 10)
-
+    disp = RocCurveDisplay.from_estimator(model, X_test, Y_test)
+    plt.savefig('ROC_RF500NewMetT' + target_label_test + '.png')
+    plt.clf()
+    '''
     ns_fpr, ns_tpr, _ = roc_curve(Y_test, ns_probs)
     lr_fpr, lr_tpr, _ = roc_curve(Y_test, lr_probs)
 
@@ -320,6 +327,7 @@ def test_model(X_test, Y_test, M_test, timestamps, feat_sensor_names, label_name
     plt.title('%s\nROC curve for' % get_label_pretty_name(model['target_label']));
     plt.savefig('ROC_RF500NewMetT' + target_label_test + '.png')
     plt.clf()
+    '''
 
     fig = plt.figure(figsize=(10, 4), facecolor='white')
     ax = plt.subplot(1, 1, 1)
