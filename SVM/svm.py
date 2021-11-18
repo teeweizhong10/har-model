@@ -5,6 +5,11 @@ import gzip
 from io import StringIO
 from sklearn import svm
 from sklearn.metrics import plot_confusion_matrix, confusion_matrix, ConfusionMatrixDisplay
+from sklearn.metrics import RocCurveDisplay
+from sklearn.metrics import roc_curve, auc
+from sklearn.metrics import roc_auc_score
+from matplotlib import pyplot
+from sklearn import metrics
 
 
 def parse_header_of_csv(csv_str):
@@ -293,6 +298,13 @@ def test_model(X_test, Y_test, M_test, timestamps, feat_sensor_names, label_name
     print('Balanced accuracy: %.2f' % balanced_accuracy)
     print('Precision**:       %.2f' % precision)
     print("-" * 10)
+
+    fpr, tpr, thresholds = metrics.roc_curve(y, y_pred)
+    roc_auc = metrics.auc(fpr, tpr)
+    display = metrics.RocCurveDisplay(fpr=fpr, tpr=tpr, roc_auc=roc_auc, estimator_name='ROC for ' + target_label_test)
+    display.plot()
+    plt.savefig('ROC_SVM' + target_label_test + '.png')
+    plt.clf()
 
 
     fig = plt.figure(figsize=(10, 4), facecolor='white')
