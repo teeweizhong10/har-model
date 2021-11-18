@@ -239,7 +239,7 @@ def train_model(X_train, Y_train, M_train, feat_sensor_names, label_names, senso
     print("== Training with %d examples. For label '%s' we have %d positive and %d negative examples." % \
           (len(y), get_label_pretty_name(target_label), sum(y), sum(np.logical_not(y))))
 
-    lr_model = RandomForestClassifier(n_estimators=100, oob_score = True, random_state=1)
+    lr_model = RandomForestClassifier(n_estimators=1000, oob_score = True, random_state=1)
     lr_model.fit(X_train, y)
 
     # Assemble all the parts of the model:
@@ -313,9 +313,9 @@ def test_model(X_test, Y_test, M_test, timestamps, feat_sensor_names, label_name
 
     fpr, tpr, thresholds = metrics.roc_curve(y, y_pred)
     roc_auc = metrics.auc(fpr, tpr)
-    display = metrics.RocCurveDisplay(fpr=fpr, tpr=tpr, roc_auc=roc_auc,estimator_name = 'example estimator')
+    display = metrics.RocCurveDisplay(fpr=fpr, tpr=tpr, roc_auc=roc_auc,estimator_name = 'ROC for ' + target_label_test)
     display.plot()
-    plt.savefig('ROC_RF100NewMetT' + target_label_test + '.png')
+    plt.savefig('ROC_RF500NewMetT' + target_label_test + '.png')
     plt.clf()
     '''
     disp = RocCurveDisplay.from_estimator(model, X_test, Y_test)
@@ -426,7 +426,6 @@ for (fi,feature) in enumerate(feature_names):
 sensors_to_use = ['Acc', 'Gyro', 'WAcc', 'watch_heading', 'location']
 target_label = 'FIX_walking'
 model_walk = train_model(X, Y, M, feat_sensor_names, label_names, sensors_to_use, target_label)
-'''
 target_label = 'FIX_running'
 model_run = train_model(X,Y,M,feat_sensor_names,label_names,sensors_to_use,target_label)
 target_label = 'OR_standing'
@@ -437,7 +436,6 @@ target_label = 'SITTING'
 model_sitting = train_model(X,Y,M,feat_sensor_names,label_names,sensors_to_use,target_label)
 target_label = 'SLEEPING'
 model_sleeping = train_model(X,Y,M,feat_sensor_names,label_names,sensors_to_use,target_label)
-'''
 
 testUUIDs = ['FDAA70A1-42A3-4E3F-9AE3-3FDA412E03BF', 'F50235E0-DD67-4F2A-B00B-1F31ADA998B9',
              'ECECC2AB-D32F-4F90-B74C-E12A1C69BBE2', 'E65577C1-8D5D-4F70-AF23-B3ADB9D3DBA3',
@@ -451,7 +449,6 @@ feat_sensor_names_test = get_sensor_names_from_features(feature_names_test);
 target_label_test = 'FIX_walking'
 test_model(X_test, Y_test, M_test, timestamps_test, feat_sensor_names_test, label_names_test, target_label_test,
            model_walk)
-'''
 target_label_test = 'FIX_running'
 test_model(X_test,Y_test,M_test,timestamps_test,feat_sensor_names_test,label_names_test,target_label_test,model_run)
 target_labe_testl = 'OR_standing'
@@ -462,7 +459,6 @@ target_label_test = 'SITTING'
 test_model(X_test,Y_test,M_test,timestamps_test,feat_sensor_names_test,label_names_test,target_label_test,model_sitting)
 target_label_test = 'SLEEPING'
 test_model(X_test,Y_test,M_test,timestamps_test,feat_sensor_names_test,label_names_test,target_label_test,model_sleeping)
-'''
 
 print(
     '* The accuracy metric is misleading - it is dominated by the negative examples (typically there are many more negatives).')
