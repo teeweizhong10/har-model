@@ -311,7 +311,7 @@ def test_model(X_test, Y_test, M_test, timestamps, feat_sensor_names, label_name
     '''
     print("-" * 10)
 
-    fpr, tpr, thresholds = metrics.roc_curve(Y_test, y_pred)
+    fpr, tpr, thresholds = metrics.roc_curve(y, y_pred)
     roc_auc = metrics.auc(fpr, tpr)
     display = metrics.RocCurveDisplay(fpr=fpr, tpr=tpr, roc_auc=roc_auc,estimator_name = 'example estimator')
     display.plot()
