@@ -9,6 +9,7 @@ from sklearn.metrics import RocCurveDisplay
 from sklearn.metrics import roc_curve, auc
 from sklearn.metrics import roc_auc_score
 from matplotlib import pyplot
+from sklearn import metrics
 
 def parse_header_of_csv(csv_str):
     headline = csv_str[:csv_str.index('\n')]
@@ -309,9 +310,18 @@ def test_model(X_test, Y_test, M_test, timestamps, feat_sensor_names, label_name
     print('Logistic: ROC AUC=%.3f' % (lr_auc))
     '''
     print("-" * 10)
-    disp = RocCurveDisplay.from_estimator(model, X_test, Y_test)
-    plt.savefig('ROC_RF500NewMetT' + target_label_test + '.png')
+
+    fpr, tpr, thresholds = metrics.roc_curve(Y_test, y_pred)
+    roc_auc = metrics.auc(fpr, tpr)
+    display = metrics.RocCurveDisplay(fpr=fpr, tpr=tpr, roc_auc=roc_auc,estimator_name = 'example estimator')
+    display.plot()
+    plt.savefig('ROC_RF100NewMetT' + target_label_test + '.png')
     plt.clf()
+    '''
+    disp = RocCurveDisplay.from_estimator(model, X_test, Y_test)
+    plt.savefig('ROC_RF100NewMetT' + target_label_test + '.png')
+    plt.clf()
+    '''
     '''
     ns_fpr, ns_tpr, _ = roc_curve(Y_test, ns_probs)
     lr_fpr, lr_tpr, _ = roc_curve(Y_test, lr_probs)
