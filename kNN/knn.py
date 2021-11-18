@@ -6,6 +6,11 @@ from io import StringIO
 from sklearn.preprocessing import StandardScaler
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import plot_confusion_matrix, confusion_matrix, ConfusionMatrixDisplay
+from sklearn.metrics import RocCurveDisplay
+from sklearn.metrics import roc_curve, auc
+from sklearn.metrics import roc_auc_score
+from matplotlib import pyplot
+from sklearn import metrics
 
 
 def parse_header_of_csv(csv_str):
@@ -286,6 +291,8 @@ def test_model(X_test, Y_test, M_test, timestamps, feat_sensor_names, label_name
     specificity = float(tn) / (tn + fp)
     balanced_accuracy = (sensitivity + specificity) / 2.
     precision = float(tp) / (tp + fp)
+    recall = float(tp) / (tp + fn)
+    F1 = 2 * (precision * recall) / (precision + recall)
 
     print("-" * 10)
     print('Accuracy*:         %.2f' % accuracy)
@@ -293,8 +300,17 @@ def test_model(X_test, Y_test, M_test, timestamps, feat_sensor_names, label_name
     print('Specificity (TNR): %.2f' % specificity)
     print('Balanced accuracy: %.2f' % balanced_accuracy)
     print('Precision**:       %.2f' % precision)
+    print('Precision**:       %.2f' % precision)
+    print('Recall:            %.2f' % recall)
+    print('F1:                %.2f' % F1)
     print("-" * 10)
 
+    fpr, tpr, thresholds = metrics.roc_curve(y, y_pred)
+    roc_auc = metrics.auc(fpr, tpr)
+    display = metrics.RocCurveDisplay(fpr=fpr, tpr=tpr, roc_auc=roc_auc, estimator_name='ROC for ' + target_label_test)
+    display.plot()
+    plt.savefig('ROC_Knn' + target_label_test + '.png')
+    plt.clf()
 
     fig = plt.figure(figsize=(10, 4), facecolor='white')
     ax = plt.subplot(1, 1, 1)

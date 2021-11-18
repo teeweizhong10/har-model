@@ -290,7 +290,7 @@ def test_model(X_test, Y_test, M_test, timestamps, feat_sensor_names, label_name
     balanced_accuracy = (sensitivity + specificity) / 2.
     precision = float(tp) / (tp + fp)
     recall = float(tp) / (tp + fn)
-
+    F1 = 2 * (precision * recall) / (precision + recall)
     '''
     ns_probs = [0 for _ in range(len(Y_test))]
     lr_probs = y_pred[:, 1]
@@ -304,7 +304,8 @@ def test_model(X_test, Y_test, M_test, timestamps, feat_sensor_names, label_name
     print('Specificity (TNR): %.2f' % specificity)
     print('Balanced accuracy: %.2f' % balanced_accuracy)
     print('Precision**:       %.2f' % precision)
-    print('Recall:       %.2f' % recall)
+    print('Recall:            %.2f' % recall)
+    print('F1:                %.2f' % F1)
     '''
     print('No Skill: ROC AUC=%.3f' % (ns_auc))
     print('Logistic: ROC AUC=%.3f' % (lr_auc))

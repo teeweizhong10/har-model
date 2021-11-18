@@ -290,6 +290,8 @@ def test_model(X_test, Y_test, M_test, timestamps, feat_sensor_names, label_name
     specificity = float(tn) / (tn + fp)
     balanced_accuracy = (sensitivity + specificity) / 2.
     precision = float(tp) / (tp + fp)
+    recall = float(tp) / (tp + fn)
+    F1 = 2 * (precision * recall) / (precision + recall)
 
     print("-" * 10)
     print('Accuracy*:         %.2f' % accuracy)
@@ -297,6 +299,8 @@ def test_model(X_test, Y_test, M_test, timestamps, feat_sensor_names, label_name
     print('Specificity (TNR): %.2f' % specificity)
     print('Balanced accuracy: %.2f' % balanced_accuracy)
     print('Precision**:       %.2f' % precision)
+    print('Recall:            %.2f' % recall)
+    print('F1:                %.2f' % F1)
     print("-" * 10)
 
     fpr, tpr, thresholds = metrics.roc_curve(y, y_pred)
