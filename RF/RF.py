@@ -290,7 +290,7 @@ def test_model(X_test, Y_test, M_test, timestamps, feat_sensor_names, label_name
     recall = float(tp) / (tp + fn)
 
     ns_probs = [0 for _ in range(len(Y_test))]
-    lr_probs = y_pred[:, 1]
+    lr_probs = y_pred[:, 2]
 
     ns_auc = roc_auc_score(Y_test, ns_probs)
     lr_auc = roc_auc_score(Y_test, lr_probs)
