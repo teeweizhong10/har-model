@@ -397,7 +397,7 @@ for (fi,feature) in enumerate(feature_names):
     pass
 '''
 
-sensors_to_use = ['WAcc', 'watch_heading']
+sensors_to_use = ['Acc', 'Gyro', 'location']
 target_label = 'FIX_walking'
 model_walk = train_model(X, Y, M, feat_sensor_names, label_names, sensors_to_use, target_label)
 target_label = 'FIX_running'
