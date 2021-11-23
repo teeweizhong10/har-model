@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #SBATCH --partition=GPU             #Partition to submit to
-#SBATCH --time=0-30:00:00             #Time limit for this job
+#SBATCH --time=0-40:00:00             #Time limit for this job
 #SBATCH --nodes=1                     #Nodes to be used for this job during runtime. Use MPI jobs with multiple nodes.
 #SBATCH --ntasks-per-node=1           #Number of CPUs. Cannot be greater than number of CPUs on the node.
 #SBATCH --mem=10000                     #Total memory for this job
